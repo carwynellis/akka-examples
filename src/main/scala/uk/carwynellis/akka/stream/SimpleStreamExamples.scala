@@ -14,7 +14,7 @@ import scala.concurrent.duration._
 /**
   * Example code from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html
   */
-object SimpleExample {
+object SimpleStreamExamples {
 
   implicit val system = ActorSystem("QuickStart")
   implicit val materializer = ActorMaterializer()
@@ -56,7 +56,4 @@ object SimpleExample {
       .zipWith(incrementingSource(n))((num, idx) => s"$idx! = $num")
       .throttle(1, 1.second, 1, ThrottleMode.shaping)
       .runForeach(println)
-
-
-
 }
