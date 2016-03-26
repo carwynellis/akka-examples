@@ -2,13 +2,14 @@ package uk.carwynellis.akka.stream
 
 import java.io.File
 
-import akka.NotUsed
+import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
-import akka.stream.{IOResult, ActorMaterializer}
+import akka.stream.{ThrottleMode, IOResult, ActorMaterializer}
 import akka.stream.scaladsl._
 import akka.util.ByteString
 
 import scala.concurrent.Future
+import scala.concurrent.duration._
 
 /**
   * Example code from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html
@@ -49,6 +50,12 @@ object SimpleExample {
 
   def writeFactorialsToFileWithLineSink(n: Int, path: String): Future[IOResult] =
     factorialSource(n).map(_.toString).runWith(lineSink(path))
+
+  def streamThrottlingExample(n: Int): Future[Done] =
+    factorialSource(n)
+      .zipWith(incrementingSource(n))((num, idx) => s"$idx! = $num")
+      .throttle(1, 1.second, 1, ThrottleMode.shaping)
+      .runForeach(println)
 
 
 

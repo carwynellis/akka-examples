@@ -38,4 +38,8 @@ class SimpleExampleTest extends FunSuite with ScalaFutures {
     val f: Future[IOResult] = SimpleExample.writeFactorialsToFile(5, "/tmp/factorials")
     whenReady(f) { result => assert(result.wasSuccessful) }
   }
+
+  test("stream throttling example runs") {
+    SimpleExample.streamThrottlingExample(5)
+  }
 }
