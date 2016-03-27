@@ -83,11 +83,14 @@ object ReactiveTweets {
     * Example from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Materialized_values
     *
     * Obtain count of tweets from the materialized processing pipeline.
+    *
+    * tweetCounts illustrates what is happening in more detail than tweetCounts2 which uses a more compact syntax
     */
+
+  val sumSink: Sink[Int, Future[Int]] = Sink.fold[Int, Int](0)(_ + _)
+
   def tweetCounts(tweets: Source[Tweet, _]): Future[Int] = {
     val count: Flow[Tweet, Int, NotUsed] = Flow[Tweet].map(_ => 1)
-
-    val sumSink: Sink[Int, Future[Int]] = Sink.fold[Int, Int](0)(_ + _)
 
     val counterGraph: RunnableGraph[Future[Int]] =
       tweets
@@ -95,5 +98,9 @@ object ReactiveTweets {
         .toMat(sumSink)(Keep.right)
 
     counterGraph.run()
+  }
+
+  def tweetCounts2(tweets: Source[Tweet, _]): Future[Int] = {
+    tweets.map(_ => 1).runWith(sumSink)
   }
 }

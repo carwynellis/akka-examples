@@ -30,4 +30,10 @@ class ReactiveTweetsTest extends FunSuite with ScalaFutures {
     val f = ReactiveTweets.tweetCounts(tweets)
     whenReady(f) { result: Int => assert(result == 3) }
   }
+
+  test("tweetCounts2 should return correct number of tweets") {
+    val tweets = ReactiveTweets.tweetStreamFromFile(TweetFilePath)
+    val f = ReactiveTweets.tweetCounts2(tweets)
+    whenReady(f) { result: Int => assert(result == 3) }
+  }
 }
