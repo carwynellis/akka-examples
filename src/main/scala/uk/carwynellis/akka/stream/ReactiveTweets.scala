@@ -3,8 +3,8 @@ package uk.carwynellis.akka.stream
 import java.io.File
 
 import akka.actor.ActorSystem
-import akka.stream.{IOResult, ActorMaterializer}
-import akka.stream.scaladsl.{Source, Framing, FileIO}
+import akka.stream.{ClosedShape, IOResult, ActorMaterializer}
+import akka.stream.scaladsl._
 import akka.util.ByteString
 
 import scala.concurrent.Future
@@ -49,4 +49,31 @@ object ReactiveTweets {
 
 
   def printStream(s: Source[_, _]) = s.runForeach(println)
+
+  def writeAuthors = FileIO.toFile(new File("/tmp/authors"))
+  def writeHashtags = FileIO.toFile(new File("/tmp/hashtags"))
+
+  /**
+    * Example from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Broadcasting_a_stream
+    *
+    * Hacked to allow writing to files via ByteStrings.
+    *
+    * TODO - better way to append line separator?
+    */
+  def broadcastingTweetsExample(tweets: Source[Tweet, _]) = {
+    val g = RunnableGraph.fromGraph(GraphDSL.create() { implicit b =>
+      import GraphDSL.Implicits._
+
+      val bcast = b.add(Broadcast[Tweet](2))
+      tweets ~> bcast.in
+      bcast.out(0) ~> Flow[Tweet]
+        .map(_.author)
+        .map((a: Author) => ByteString(a.handle + System.lineSeparator())) ~> writeAuthors
+      bcast.out(1) ~> Flow[Tweet]
+        .mapConcat(_.hashtags.toList)
+        .map((h: Hashtag) => ByteString(h.name + System.lineSeparator())) ~> writeHashtags
+      ClosedShape
+    })
+    g.run()
+  }
 }

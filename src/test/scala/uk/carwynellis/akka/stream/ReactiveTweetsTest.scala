@@ -1,6 +1,5 @@
 package uk.carwynellis.akka.stream
 
-import java.io.File
 
 import org.scalatest.FunSuite
 
@@ -18,5 +17,10 @@ class ReactiveTweetsTest extends FunSuite {
     val tweets = ReactiveTweets.tweetStreamFromFile(TweetFilePath)
     val hashtags = ReactiveTweets.extractHashTagsFromTweets(tweets)
     ReactiveTweets.printStream(hashtags)
+  }
+
+  test("Broadcasting tweets example should write data to two files") {
+    val tweets = ReactiveTweets.tweetStreamFromFile(TweetFilePath)
+    ReactiveTweets.broadcastingTweetsExample(tweets)
   }
 }
