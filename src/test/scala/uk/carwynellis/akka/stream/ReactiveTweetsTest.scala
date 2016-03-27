@@ -2,8 +2,9 @@ package uk.carwynellis.akka.stream
 
 
 import org.scalatest.FunSuite
+import org.scalatest.concurrent.ScalaFutures
 
-class ReactiveTweetsTest extends FunSuite {
+class ReactiveTweetsTest extends FunSuite with ScalaFutures {
 
   val TweetFilePath = "src/test/resources/tweets.txt"
 
@@ -22,5 +23,11 @@ class ReactiveTweetsTest extends FunSuite {
   test("Broadcasting tweets example should write data to two files") {
     val tweets = ReactiveTweets.tweetStreamFromFile(TweetFilePath)
     ReactiveTweets.broadcastingTweetsExample(tweets)
+  }
+
+  test("tweetCounts should return correct number of tweets") {
+    val tweets = ReactiveTweets.tweetStreamFromFile(TweetFilePath)
+    val f = ReactiveTweets.tweetCounts(tweets)
+    whenReady(f) { result: Int => assert(result == 3) }
   }
 }

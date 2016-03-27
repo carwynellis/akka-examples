@@ -2,12 +2,14 @@ package uk.carwynellis.akka.stream
 
 import java.io.File
 
+import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.{ClosedShape, IOResult, ActorMaterializer}
 import akka.stream.scaladsl._
 import akka.util.ByteString
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Example code from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Time-Based_Processing
@@ -75,5 +77,23 @@ object ReactiveTweets {
       ClosedShape
     })
     g.run()
+  }
+
+  /**
+    * Example from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Materialized_values
+    *
+    * Obtain count of tweets from the materialized processing pipeline.
+    */
+  def tweetCounts(tweets: Source[Tweet, _]): Future[Int] = {
+    val count: Flow[Tweet, Int, NotUsed] = Flow[Tweet].map(_ => 1)
+
+    val sumSink: Sink[Int, Future[Int]] = Sink.fold[Int, Int](0)(_ + _)
+
+    val counterGraph: RunnableGraph[Future[Int]] =
+      tweets
+        .via(count)
+        .toMat(sumSink)(Keep.right)
+
+    counterGraph.run()
   }
 }
