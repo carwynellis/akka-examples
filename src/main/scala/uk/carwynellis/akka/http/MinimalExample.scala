@@ -8,6 +8,9 @@ import akka.stream.ActorMaterializer
 
 import scala.io.StdIn.readLine
 
+/**
+  * Minimal Example from http://doc.akka.io/docs/akka/2.4.2/scala/http/routing-dsl/index.html#Minimal_Example
+  */
 object MinimalExample {
 
   implicit val system = ActorSystem("minimal-example-system")
