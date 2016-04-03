@@ -1,6 +1,6 @@
 package uk.carwynellis.akka.http
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.{FunSuite, Matchers}
 
@@ -19,6 +19,7 @@ class MinimalExampleTest extends FunSuite with ScalatestRouteTest with Matchers 
     Get("/hello") ~> MinimalExample.route ~> check {
       status should equal (StatusCodes.OK)
       responseAs[String] should include ("Say hello to akka-http")
+      contentType should be (ContentTypes.`text/html(UTF-8)`)
     }
   }
 

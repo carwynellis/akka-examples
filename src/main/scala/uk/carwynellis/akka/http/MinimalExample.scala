@@ -2,14 +2,14 @@ package uk.carwynellis.akka.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 
 import scala.io.StdIn.readLine
 
 /**
-  * Minimal Example from http://doc.akka.io/docs/akka/2.4.2/scala/http/routing-dsl/index.html#Minimal_Example
+  * Minimal Example from http://doc.akka.io/docs/akka/2.4.3/scala/http/routing-dsl/index.html#Minimal_Example
   */
 object MinimalExample {
 
@@ -24,7 +24,7 @@ object MinimalExample {
     path("hello") {
       get {
         complete {
-          <h1>Say hello to akka-http</h1>
+          HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>")
         }
       }
     }
