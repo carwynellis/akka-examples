@@ -35,7 +35,14 @@ object Json4sExample extends Json4sSupport {
     path("users") {
       get {
         complete {
-          List(User("Mr", "Foo Bar"), User("Dr", "Baz"))
+          List(User(1, "Foo Bar"), User(2, "Baz"))
+        }
+      }
+    } ~
+    path("users" / IntNumber) { userId =>
+      get {
+        complete {
+          User(userId, "User For Requested ID")
         }
       }
     }
@@ -52,4 +59,4 @@ object Json4sExample extends Json4sSupport {
   }
 }
 
-case class User(title: String, name: String)
+case class User(id: Int, name: String)

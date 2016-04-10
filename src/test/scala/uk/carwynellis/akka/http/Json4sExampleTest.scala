@@ -17,8 +17,17 @@ class Json4sExampleTest extends FunSuite with ScalatestRouteTest with Matchers w
   test("should return multiple users on GET of /users") {
     Get("/users") ~> Json4sExample.route ~> check {
       status should equal (StatusCodes.OK)
-      responseAs[List[User]] should be (List(User("Mr", "Foo Bar"), User("Dr", "Baz")))
       contentType should be (ContentTypes.`application/json`)
+      responseAs[List[User]] should be (List(User(1, "Foo Bar"), User(2, "Baz")))
+    }
+  }
+
+  test("should return single user for GET of /user/id") {
+    val userId = 12
+    Get(s"/users/$userId") ~> Json4sExample.route ~> check {
+      status should equal (StatusCodes.OK)
+      contentType should be (ContentTypes.`application/json`)
+      responseAs[User] should be (User(userId, "User For Requested ID"))
     }
   }
 
