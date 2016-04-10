@@ -2,6 +2,8 @@ package uk.carwynellis.akka.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.{HttpEntity, HttpResponse, StatusCodes}
+import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
@@ -27,22 +29,27 @@ object Json4sExample extends Json4sSupport {
   val ServerPort = 8080
 
   // TODO - provide routes for
-  //  GET resource by ID
-  //  POST to collection
   //  PUT to resource ID
   //  DELETE to resource ID
   val route =
     path("users") {
       get {
         complete {
-          List(User(1, "Foo Bar"), User(2, "Baz"))
+          List(User("Foo Bar"), User("Baz"))
+        }
+      } ~
+      post {
+        entity(as[User]) { user =>
+          respondWithHeader(Location(s"http://$ServerHost:$ServerPort/users/12345")) {
+            complete(HttpResponse(status = StatusCodes.Created, entity = HttpEntity.Empty))
+          }
         }
       }
     } ~
     path("users" / IntNumber) { userId =>
       get {
         complete {
-          User(userId, "User For Requested ID")
+          User("User For Requested ID")
         }
       }
     }
@@ -59,4 +66,4 @@ object Json4sExample extends Json4sSupport {
   }
 }
 
-case class User(id: Int, name: String)
+case class User(name: String)

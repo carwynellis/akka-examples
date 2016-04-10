@@ -1,6 +1,7 @@
 package uk.carwynellis.akka.http
 
-import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
+import akka.http.scaladsl.model.headers.Location
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
 import org.json4s.{DefaultFormats, native}
@@ -18,16 +19,23 @@ class Json4sExampleTest extends FunSuite with ScalatestRouteTest with Matchers w
     Get("/users") ~> Json4sExample.route ~> check {
       status should equal (StatusCodes.OK)
       contentType should be (ContentTypes.`application/json`)
-      responseAs[List[User]] should be (List(User(1, "Foo Bar"), User(2, "Baz")))
+      responseAs[List[User]] should be (List(User("Foo Bar"), User("Baz")))
     }
   }
 
   test("should return single user for GET of /user/id") {
-    val userId = 12
-    Get(s"/users/$userId") ~> Json4sExample.route ~> check {
+    Get("/users/12") ~> Json4sExample.route ~> check {
       status should equal (StatusCodes.OK)
       contentType should be (ContentTypes.`application/json`)
-      responseAs[User] should be (User(userId, "User For Requested ID"))
+      responseAs[User] should be (User("User For Requested ID"))
+    }
+  }
+
+  test("should respond with HTTP 201 and location header pointing to created resource") {
+    Post("/users", User("Name")) ~> Json4sExample.route ~> check {
+      status should equal (StatusCodes.Created)
+      headers should contain (Location(s"http://${Json4sExample.ServerHost}:${Json4sExample.ServerPort}/users/12345"))
+      responseEntity should be (HttpEntity.Empty)
     }
   }
 
