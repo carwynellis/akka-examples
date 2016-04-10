@@ -7,7 +7,7 @@ Focusing on the streams and akka-http for now.
 ## akka-stream examples
 
   * [ReactiveTweets](src/main/scala/uk/carwynellis/akka/stream/ReactiveTweets.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/ReactiveTweetsTest.scala)
-  * [SimpleStreamExamples](src/main/scala/uk/carwynellis/akka/stream/SimpleStreamExample.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/SimpleStreamExamplesTest.scala)
+  * [SimpleStreamExamples](src/main/scala/uk/carwynellis/akka/stream/SimpleStreamExamples.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/SimpleStreamExamplesTest.scala)
 
 ## akka-http examples
 
