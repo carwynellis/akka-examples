@@ -13,7 +13,12 @@ import org.json4s.native
 import scala.io.StdIn.readLine
 
 /**
-  * Simple example demonstrating Json4s based serialization / deserialization
+  * Simple example demonstrating Json4s based serialization / deserialization with the following HTTP methods
+  *
+  *   * GET    - entire collection and by specific ID
+  *   * POST   - to collection responding with location header pointing to created resource
+  *   * PUT    - to specific ID with appropriate response for update to existing resource
+  *   * DELETE - of resource with specific ID
   */
 object Json4sExample extends Json4sSupport {
 
