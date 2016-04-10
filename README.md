@@ -17,6 +17,6 @@ Focusing on the streams and akka-http for now.
         * POST    - responds with location header pointing to created resource
         * PUT     - to specific ID with appropriate response for update of existing resource
         * DELETE  - of resource by ID
-    * [tests](src/test/scala/uk/carwynellis/akka/http/MinimalExampleTest.scala) using ScalatestRouteTest to test each HTTP method
+    * [tests](src/test/scala/uk/carwynellis/akka/http/Json4sExampleTest.scala) using ScalatestRouteTest to test each HTTP method
   * [MinimalExample](src/main/scala/uk/carwynellis/akka/http/Json4sExample.scala)
     * minimal route example from docs with [tests](src/test/scala/uk/carwynellis/akka/http/MinimalExampleTest.scala)
