@@ -2,7 +2,7 @@ package uk.carwynellis.akka.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpEntity, HttpResponse, StatusCodes}
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
@@ -28,9 +28,6 @@ object Json4sExample extends Json4sSupport {
   val ServerHost = "localhost"
   val ServerPort = 8080
 
-  // TODO - provide routes for
-  //  PUT to resource ID
-  //  DELETE to resource ID
   val route =
     path("users") {
       get {
@@ -41,7 +38,7 @@ object Json4sExample extends Json4sSupport {
       post {
         entity(as[User]) { user =>
           respondWithHeader(Location(s"http://$ServerHost:$ServerPort/users/12345")) {
-            complete(HttpResponse(status = StatusCodes.Created, entity = HttpEntity.Empty))
+            complete(HttpResponse(StatusCodes.Created))
           }
         }
       }
@@ -51,6 +48,15 @@ object Json4sExample extends Json4sSupport {
         complete {
           User("User For Requested ID")
         }
+      } ~
+      put {
+        entity(as[User]) { user =>
+          // Respond as if updating an existing resource - would be HTTP 201 Created if the PUT created a new resource
+          complete(HttpResponse(StatusCodes.NoContent))
+        }
+      } ~
+      delete {
+        complete(HttpResponse(StatusCodes.NoContent))
       }
     }
 

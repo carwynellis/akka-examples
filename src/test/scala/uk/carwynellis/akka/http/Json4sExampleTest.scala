@@ -23,7 +23,7 @@ class Json4sExampleTest extends FunSuite with ScalatestRouteTest with Matchers w
     }
   }
 
-  test("should return single user for GET of /user/id") {
+  test("should return single user for GET of /users/id") {
     Get("/users/12") ~> Json4sExample.route ~> check {
       status should equal (StatusCodes.OK)
       contentType should be (ContentTypes.`application/json`)
@@ -31,10 +31,24 @@ class Json4sExampleTest extends FunSuite with ScalatestRouteTest with Matchers w
     }
   }
 
-  test("should respond with HTTP 201 and location header pointing to created resource") {
+  test("should respond with HTTP 201 and location header pointing to created resource for POST to /users") {
     Post("/users", User("Name")) ~> Json4sExample.route ~> check {
       status should equal (StatusCodes.Created)
       headers should contain (Location(s"http://${Json4sExample.ServerHost}:${Json4sExample.ServerPort}/users/12345"))
+      responseEntity should be (HttpEntity.Empty)
+    }
+  }
+
+  test("should respond with HTTP 204 (assuming update of existing resource) for PUT to /users/id") {
+    Put("/users/12345", User("Some User")) ~> Json4sExample.route ~> check {
+      status should equal (StatusCodes.NoContent)
+      responseEntity should be (HttpEntity.Empty)
+    }
+  }
+
+  test("should respond with HTTP 204 for DELETE of /users/id") {
+    Delete("/users/12345") ~> Json4sExample.route ~> check {
+      status should equal (StatusCodes.NoContent)
       responseEntity should be (HttpEntity.Empty)
     }
   }
