@@ -14,6 +14,7 @@ object Main extends App {
   import MyActor._
 
   myActor ! Greeting("Someone")
+  myActor ! Goodbye
 
   system.terminate()
 }
