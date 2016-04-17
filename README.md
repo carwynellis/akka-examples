@@ -1,8 +1,10 @@
 # getting-started-with-akka
 
-Examples from the akka docs at http://doc.akka.io/docs/akka/2.4.3/scala.html
+Examples from the akka docs at http://doc.akka.io/docs/akka/2.4.4/scala.html
 
-Focusing on the streams and akka-http for now.
+## akka-actor examples
+
+ * [MyActor](src/main/scala/uk/carwynellis/akka/actor/MyActor.scala) with [tests](src/test/scala/uk/carwynellis/akka/actor/MyActorTest.scala)
 
 ## akka-stream examples
 
