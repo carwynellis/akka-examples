@@ -40,7 +40,5 @@ class MyActorTest extends FunSuite with BeforeAndAfterAll {
     eventFilter assertDone Duration.Inf
   }
 
-  override def afterAll = {
-    system.terminate()
-  }
+  override def afterAll = system.terminate()
 }
