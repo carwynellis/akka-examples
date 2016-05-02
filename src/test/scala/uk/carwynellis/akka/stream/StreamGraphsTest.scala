@@ -11,8 +11,7 @@ class StreamGraphsTest extends FunSuite with ScalaFutures with BeforeAndAfterAll
   implicit val materializer = ActorMaterializer()
 
   test("runnableGraphExample should return expected result") {
-    val runnableGraph = StreamGraphs.runnableGraphExample
-    val streamResultFuture = runnableGraph.run()
+    val streamResultFuture = StreamGraphs.runnableGraphExample.run()
 
     whenReady(streamResultFuture) { result =>
       assert(result == 710)
@@ -20,8 +19,7 @@ class StreamGraphsTest extends FunSuite with ScalaFutures with BeforeAndAfterAll
   }
 
   test("parallelStreams returns expected results") {
-    val parallelStreams = StreamGraphs.parallelStreams
-    val (topF, bottomF) = parallelStreams.run()
+    val (topF, bottomF) = StreamGraphs.parallelStreams.run()
 
     whenReady(topF) { result =>
       assert(result == 2)
@@ -29,6 +27,14 @@ class StreamGraphsTest extends FunSuite with ScalaFutures with BeforeAndAfterAll
 
     whenReady(bottomF) { result =>
       assert(result == 2)
+    }
+  }
+
+  test("max of three example should return expected result") {
+    val maxOfThreeFuture = StreamGraphs.maxOfThreeRunnableGraph.run()
+
+    whenReady(maxOfThreeFuture) { result =>
+      assert(result == 3)
     }
   }
 
