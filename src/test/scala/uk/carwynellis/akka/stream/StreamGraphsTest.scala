@@ -19,5 +19,18 @@ class StreamGraphsTest extends FunSuite with ScalaFutures with BeforeAndAfterAll
     }
   }
 
+  test("parallelStreams returns expected results") {
+    val parallelStreams = StreamGraphs.parallelStreams
+    val (topF, bottomF) = parallelStreams.run()
+
+    whenReady(topF) { result =>
+      assert(result == 2)
+    }
+
+    whenReady(bottomF) { result =>
+      assert(result == 2)
+    }
+  }
+
   override def afterAll = system.terminate()
 }
