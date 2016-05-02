@@ -32,7 +32,7 @@ object StreamGraphs {
 
   private val sumSink = Sink.fold[Int, Int](0)(_ + _)
 
-  def runnableGraphExample = RunnableGraph.fromGraph(GraphDSL.create(sumSink) { implicit builder =>
+  val runnableGraphExample = RunnableGraph.fromGraph(GraphDSL.create(sumSink) { implicit builder =>
     sink =>
       import GraphDSL.Implicits._
 
@@ -53,7 +53,7 @@ object StreamGraphs {
   private val bottomHeadSink = Sink.head[Int]
   private val sharedDoubler = Flow[Int].map(_ * 2)
 
-  def parallelStreams = RunnableGraph.fromGraph(GraphDSL.create(topHeadSink, bottomHeadSink)((_, _)) { implicit builder =>
+  val parallelStreams = RunnableGraph.fromGraph(GraphDSL.create(topHeadSink, bottomHeadSink)((_, _)) { implicit builder =>
     (topHS, bottomHS) =>
       import GraphDSL.Implicits._
 
