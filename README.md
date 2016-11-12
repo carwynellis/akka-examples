@@ -1,6 +1,6 @@
 # akka-examples
 
-Examples from the akka docs at http://doc.akka.io/docs/akka/2.4.4/scala.html
+Various examples, mostly from the akka docs at http://doc.akka.io/docs/akka/2.4/scala.html
 
 ## akka-actor examples
 
@@ -8,6 +8,7 @@ Examples from the akka docs at http://doc.akka.io/docs/akka/2.4.4/scala.html
 
 ## akka-stream examples
 
+  * [FailureHandlingWithPartition](src/main/scala/uk/carwynellis/akka/stream/FailureHandlingWithPartition.scala)
   * [ReactiveTweets](src/main/scala/uk/carwynellis/akka/stream/ReactiveTweets.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/ReactiveTweetsTest.scala)
   * [SimpleStreamExamples](src/main/scala/uk/carwynellis/akka/stream/SimpleStreamExamples.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/SimpleStreamExamplesTest.scala)
   * [StreamGraphs](src/main/scala/uk/carwynellis/akka/stream/StreamGraphs.scala) with [tests](src/test/scala/uk/carwynellis/akka/stream/StreamGraphsTest.scala)
