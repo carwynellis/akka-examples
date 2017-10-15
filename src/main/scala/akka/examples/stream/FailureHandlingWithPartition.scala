@@ -6,6 +6,8 @@ import akka.stream.{ActorMaterializer, ClosedShape}
 
 import scala.util.{Failure, Success, Try}
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 // TODO - remove App trait and run via tests
 //      - provide an alternative that partitions a Try() output from a preceeding stage.
 //        This example only really works for side effecting functions that can fail where
@@ -20,7 +22,7 @@ object FailureHandlingWithPartition extends App {
   implicit val system = ActorSystem("ErrorHandlingExampleSystem")
   implicit val materializer = ActorMaterializer()
 
-  def simpleSource = Source(1 to 10)
+  val simpleSource = Source(1 to 10)
 
   def monitorStage(label: String = "Monitor saw:") = Flow[Int].map{ i =>
     println(s"$label $i")
@@ -68,7 +70,7 @@ object FailureHandlingWithPartition extends App {
     *
     * @return
     */
-  def runFailingFunction = RunnableGraph.fromGraph(GraphDSL.create(Sink.ignore) { implicit builder =>
+  val failingFunctionGraph = RunnableGraph.fromGraph(GraphDSL.create(Sink.ignore) { implicit builder =>
     sink =>
       import GraphDSL.Implicits._
 
@@ -85,5 +87,11 @@ object FailureHandlingWithPartition extends App {
       ClosedShape
   })
 
-  runFailingFunction.run
+  failingFunctionGraph.run.recover {
+    case e =>
+      println(s"Caught error: $e - terminating actor system")
+      system.terminate
+  } onComplete { _ =>
+    system.terminate
+  }
 }
