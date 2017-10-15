@@ -1,4 +1,4 @@
-package uk.carwynellis.akka.actor
+package akka.examples.actor
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.EventFilter
@@ -9,7 +9,7 @@ import scala.concurrent.duration._
 
 class MyActorTest extends FunSuite with BeforeAndAfterAll {
 
-  import uk.carwynellis.akka.actor.MyActor._
+  import akka.examples.actor.MyActor._
 
   implicit val system = ActorSystem(
       "testsystem",

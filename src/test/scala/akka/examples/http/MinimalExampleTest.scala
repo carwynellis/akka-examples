@@ -1,4 +1,4 @@
-package uk.carwynellis.akka.http
+package akka.examples.http
 
 import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest

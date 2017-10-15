@@ -1,4 +1,4 @@
-package uk.carwynellis.akka.http
+package akka.examples.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http

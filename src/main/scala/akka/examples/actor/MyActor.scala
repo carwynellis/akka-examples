@@ -1,4 +1,4 @@
-package uk.carwynellis.akka.actor
+package akka.examples.actor
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 import akka.event.Logging

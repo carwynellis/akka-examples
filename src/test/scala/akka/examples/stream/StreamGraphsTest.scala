@@ -1,4 +1,4 @@
-package uk.carwynellis.akka.stream
+package akka.examples.stream
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
