@@ -10,7 +10,7 @@ Various examples, mostly from the akka docs at http://doc.akka.io/docs/akka/2.4/
 
   * [FailureHandlingWithPartition](src/main/scala/akka/examples/stream/FailureHandlingWithPartition.scala)
   * [ReactiveTweets](src/main/scala/akka/examples/stream/ReactiveTweets.scala) with [tests](src/test/scala/akka//examples/stream/ReactiveTweetsTest.scala)
-  * [SimpleStreamExamples](src/main/scala/akka/examples/stream/SimpleStreamExamples.scala) with [tests](src/test/akka/examples/stream/SimpleStreamExamplesTest.scala)
+  * [SimpleStreamExamples](src/main/scala/akka/examples/stream/SimpleStreamExamples.scala) with [tests](src/test/scala/akka/examples/stream/SimpleStreamExamplesTest.scala)
   * [StreamGraphs](src/main/scala/akka/examples/stream/StreamGraphs.scala) with [tests](src/test/scala/akka/examples/stream/StreamGraphsTest.scala)
 
 ## akka-http REST API examples
