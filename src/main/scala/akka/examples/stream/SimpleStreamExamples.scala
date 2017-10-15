@@ -1,12 +1,12 @@
 package akka.examples.stream
 
-import java.io.File
+import java.nio.file.Paths
 
-import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
-import akka.stream.{ThrottleMode, IOResult, ActorMaterializer}
 import akka.stream.scaladsl._
+import akka.stream.{ActorMaterializer, IOResult, ThrottleMode}
 import akka.util.ByteString
+import akka.{Done, NotUsed}
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -41,12 +41,12 @@ object SimpleStreamExamples {
   def writeFactorialsToFile(n: Int, path: String): Future[IOResult] =
     factorialSource(n)
       .map(num => ByteString(s"$num\n"))
-      .runWith(FileIO.toFile(new File(path)))
+      .runWith(FileIO.toPath(Paths.get(path)))
 
   def lineSink(filename: String): Sink[String, Future[IOResult]] =
     Flow[String]
       .map(s => ByteString(s"$s\n"))
-      .toMat(FileIO.toFile(new File(filename)))(Keep.right)
+      .toMat(FileIO.toPath(Paths.get(filename)))(Keep.right)
 
   def writeFactorialsToFileWithLineSink(n: Int, path: String): Future[IOResult] =
     factorialSource(n).map(_.toString).runWith(lineSink(path))

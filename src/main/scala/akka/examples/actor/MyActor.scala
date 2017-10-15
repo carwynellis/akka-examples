@@ -1,7 +1,6 @@
 package akka.examples.actor
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
-import akka.event.Logging
 
 /**
   * Example code from http://doc.akka.io/docs/akka/2.4.4/scala/actors.html#Defining_an_Actor_class

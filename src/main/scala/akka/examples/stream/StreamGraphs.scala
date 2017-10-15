@@ -7,6 +7,8 @@ import akka.stream.{ActorMaterializer, ClosedShape, UniformFanInShape}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
+import scala.language.postfixOps
+
 /**
   * Stream graph examples from http://doc.akka.io/docs/akka/2.4.4/scala/stream/stream-graphs.html
   */

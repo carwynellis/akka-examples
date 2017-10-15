@@ -1,15 +1,14 @@
 package akka.examples.stream
 
-import java.io.File
+import java.nio.file.Paths
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream.{ClosedShape, IOResult, ActorMaterializer}
 import akka.stream.scaladsl._
+import akka.stream.{ActorMaterializer, ClosedShape, IOResult}
 import akka.util.ByteString
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * Example code from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Time-Based_Processing
@@ -32,7 +31,7 @@ object ReactiveTweets {
 
   def tweetStreamFromFile(path: String): Source[Tweet, Future[IOResult]] =
     FileIO
-      .fromFile(new File(path))
+      .fromPath(Paths.get(path))
       .via(Framing.delimiter(ByteString(System.lineSeparator()), maximumFrameLength = 1024, allowTruncation = true))
       .map(_.utf8String)
       .map(_.split("\t") )
@@ -52,8 +51,8 @@ object ReactiveTweets {
 
   def printStream(s: Source[_, _]) = s.runForeach(println)
 
-  def writeAuthors = FileIO.toFile(new File("/tmp/authors"))
-  def writeHashtags = FileIO.toFile(new File("/tmp/hashtags"))
+  def writeAuthors = FileIO.toPath(Paths.get("/tmp/authors"))
+  def writeHashtags = FileIO.toPath(Paths.get("/tmp/hashtags"))
 
   /**
     * Example from http://doc.akka.io/docs/akka/2.4.2/scala/stream/stream-quickstart.html#Broadcasting_a_stream
